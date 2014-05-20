@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol LruCacheDelegate
+@protocol LruCacheDelegate <NSObject>
 
 - (NSInteger)sizeOf:(NSString *)key value:(id)value;
 

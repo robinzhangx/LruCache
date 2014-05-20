@@ -51,7 +51,9 @@
         _missCount++;
     }
     
-    id createdValue = [self.delegate create:cKey];
+    id createdValue = nil;
+    if ([self.delegate respondsToSelector:@selector(create:)])
+        createdValue = [self.delegate create:cKey];
     if (createdValue == nil) {
         return nil;
     }
@@ -177,6 +179,14 @@
 - (NSMutableDictionary *)snapshot
 {
     return [NSMutableDictionary dictionaryWithDictionary:_values];
+}
+
+- (NSString *)description
+{
+    int accesses = _hitCount + _missCount;
+    int hitPercent = accesses != 0 ? (100 * _hitCount / accesses) : 0;
+    return [NSString stringWithFormat:@"LruCache[maxSize=%d,hits=%d,misses=%d,hitRate=%d%%]",
+        _maxSize, _hitCount, _missCount, hitPercent];
 }
 
 #pragma mark - private methods
