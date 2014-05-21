@@ -71,7 +71,8 @@
     }
     
     if (dicValue != nil) {
-        [self.delegate entryRemoved:NO key:cKey oldValue:createdValue newValue:dicValue];
+        if ([self.delegate respondsToSelector:@selector(entryRemoved:)])
+            [self.delegate entryRemoved:NO key:cKey oldValue:createdValue newValue:dicValue];
         return dicValue;
     } else {
         [self trimToSize:_maxSize];
@@ -100,7 +101,8 @@
     }
     
     if (previous != nil) {
-        [self.delegate entryRemoved:NO key:cKey oldValue:previous newValue:value];
+        if ([self.delegate respondsToSelector:@selector(entryRemoved:)])
+            [self.delegate entryRemoved:NO key:cKey oldValue:previous newValue:value];
     }
     
     [self trimToSize:_maxSize];
@@ -133,7 +135,8 @@
             _evictionCount++;
         }
         
-        [self.delegate entryRemoved:YES key:key oldValue:value newValue:nil];
+        if ([self.delegate respondsToSelector:@selector(entryRemoved:)])
+            [self.delegate entryRemoved:YES key:key oldValue:value newValue:nil];
     }
 }
 
@@ -153,7 +156,8 @@
     }
     
     if (previous != nil) {
-        [self.delegate entryRemoved:NO key:cKey oldValue:previous newValue:nil];
+        if ([self.delegate respondsToSelector:@selector(entryRemoved:)])
+            [self.delegate entryRemoved:NO key:cKey oldValue:previous newValue:nil];
     }
     
     return previous;
