@@ -129,7 +129,7 @@
                 [NSException raise:@"Illegal State" format:@"inconsistent size."];
             }
             
-            if (_size <= _maxSize || [_values count] == 0) {
+            if (_size <= maxSize || [_values count] == 0) {
                 break;
             }
             
