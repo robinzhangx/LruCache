@@ -32,6 +32,20 @@
     return [self initWithMaxSize:0];
 }
 
+- (NSInteger)sizeOf:(NSString *)key value:(id)value
+{
+    return 1;
+}
+- (id)create:(NSString *)key
+{
+    return nil;
+}
+
+- (void)entryRemoved:(BOOL)evicted key:(NSString *)key oldValue:(id)oldValue newValue:(id)newValue
+{
+
+}
+
 - (id)get:(NSString *)key
 {
     if (key == nil) {
@@ -51,9 +65,7 @@
         _missCount++;
     }
     
-    id createdValue = nil;
-    if ([self.delegate respondsToSelector:@selector(create:)])
-        createdValue = [self.delegate create:cKey];
+    id createdValue = [self create:cKey];
     if (createdValue == nil) {
         return nil;
     }
@@ -71,8 +83,7 @@
     }
     
     if (dicValue != nil) {
-        if ([self.delegate respondsToSelector:@selector(entryRemoved:)])
-            [self.delegate entryRemoved:NO key:cKey oldValue:createdValue newValue:dicValue];
+        [self entryRemoved:NO key:cKey oldValue:createdValue newValue:dicValue];
         return dicValue;
     } else {
         [self trimToSize:_maxSize];
@@ -101,8 +112,7 @@
     }
     
     if (previous != nil) {
-        if ([self.delegate respondsToSelector:@selector(entryRemoved:)])
-            [self.delegate entryRemoved:NO key:cKey oldValue:previous newValue:value];
+        [self entryRemoved:NO key:cKey oldValue:previous newValue:value];
     }
     
     [self trimToSize:_maxSize];
@@ -135,8 +145,7 @@
             _evictionCount++;
         }
         
-        if ([self.delegate respondsToSelector:@selector(entryRemoved:)])
-            [self.delegate entryRemoved:YES key:key oldValue:value newValue:nil];
+        [self entryRemoved:YES key:key oldValue:value newValue:nil];
     }
 }
 
@@ -156,8 +165,7 @@
     }
     
     if (previous != nil) {
-        if ([self.delegate respondsToSelector:@selector(entryRemoved:)])
-            [self.delegate entryRemoved:NO key:cKey oldValue:previous newValue:nil];
+        [self entryRemoved:NO key:cKey oldValue:previous newValue:nil];
     }
     
     return previous;
@@ -189,14 +197,14 @@
 {
     int accesses = _hitCount + _missCount;
     int hitPercent = accesses != 0 ? (100 * _hitCount / accesses) : 0;
-    return [NSString stringWithFormat:@"LruCache[maxSize=%d,hits=%d,misses=%d,hitRate=%d%%]",
-        _maxSize, _hitCount, _missCount, hitPercent];
+    return [NSString stringWithFormat:@"LruCache[maxSize=%d,size=%d,items=%d,hits=%d,misses=%d,hitRate=%d%%]",
+        _maxSize, _size, [_values count], _hitCount, _missCount, hitPercent];
 }
 
 #pragma mark - private methods
 - (NSInteger)safeSizeOf:(NSString *)key value:(id)value
 {
-    NSInteger result = [self.delegate sizeOf:key value:value];
+    NSInteger result = [self sizeOf:key value:value];
     if (result < 0) {
         [NSException raise:@"Illegal State" format:@"negative size"];
     }

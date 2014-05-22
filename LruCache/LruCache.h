@@ -7,17 +7,12 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol LruCacheDelegate <NSObject>
+@interface LruCache : NSObject
 
+// subclass need to implement sizeOf: method. create: and entryRemoved methods are optional.
 - (NSInteger)sizeOf:(NSString *)key value:(id)value;
-
-@optional
 - (id)create:(NSString *)key;
 - (void)entryRemoved:(BOOL)evicted key:(NSString *)key oldValue:(id)oldValue newValue:(id)newValue;
-
-@end
-
-@interface LruCache : NSObject
 
 - (id)initWithMaxSize:(NSInteger)maxSize;
 - (void)resize:(NSInteger)maxSize;
@@ -35,7 +30,5 @@
 @property (readonly) NSInteger createCount;
 @property (readonly) NSInteger putCount;
 @property (readonly) NSInteger evictionCount;
-
-@property (nonatomic, weak) id<LruCacheDelegate> delegate;
 
 @end
