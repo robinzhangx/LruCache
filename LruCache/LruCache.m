@@ -196,10 +196,10 @@
 
 - (NSString *)description
 {
-    int accesses = _hitCount + _missCount;
-    int hitPercent = accesses != 0 ? (100 * _hitCount / accesses) : 0;
-    return [NSString stringWithFormat:@"LruCache[maxSize=%d,size=%d,items=%d,hits=%d,misses=%d,hitRate=%d%%]",
-        _maxSize, _size, [_values count], _hitCount, _missCount, hitPercent];
+    long accesses = _hitCount + _missCount;
+    long hitPercent = accesses != 0 ? (100 * _hitCount / accesses) : 0;
+    return [NSString stringWithFormat:@"LruCache[maxSize=%ld,size=%ld,items=%ld,hits=%ld,misses=%ld,hitRate=%ld%%]",
+        (long)_maxSize, (long)_size, (long)[_values count], (long)_hitCount, (long)_missCount, hitPercent];
 }
 
 #pragma mark - private methods
