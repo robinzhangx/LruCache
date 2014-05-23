@@ -21,7 +21,6 @@
 - (void)trimToSize:(NSInteger)maxSize;
 - (id)remove:(NSString *)key;
 - (void)evictAll;
-- (NSMutableDictionary *)snapshot;
 
 @property (readonly) NSInteger size;
 @property (readonly) NSInteger maxSize;
