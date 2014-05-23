@@ -12,7 +12,7 @@ Create subclass of ```LruCache```. For example: an ```ImageCache``` class to cac
 
 @end
 ```
-Override ```sizeOf:``` method, and optionally ```create:``` and ```entryRemoved:``` methods.
+Override ```sizeOf:``` method to provide customized size of stored object.
 ```
 @implementation ImageCache
 
@@ -21,16 +21,6 @@ Override ```sizeOf:``` method, and optionally ```create:``` and ```entryRemoved:
     UIImage *img = (UIImage *)value;
     CGSize size = img.size;
     return (NSInteger)ceil(size.height * size.width * img.scale * 4);
-}
-
-- (id)create:(NSString *)key
-{
-    return nil;
-}
-
-- (void)entryRemoved:(BOOL)evicted key:(NSString *)key oldValue:(id)oldValue newValue:(id)newValue
-{
-    // do nothing.
 }
 
 @end
