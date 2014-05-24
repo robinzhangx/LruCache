@@ -1,6 +1,6 @@
 LruCache
 ======
-Objective-C implementation of Least Recently Used(LRU) cache.
+Objective-C implementation of in-memory Least Recently Used(LRU) cache.
 
 Usage
 ======
