@@ -1,5 +1,8 @@
 LruCache
 ======
+## Deprecated 
+## Consider use https://github.com/nicklockwood/LRUCache
+
 Objective-C implementation of in-memory Least Recently Used(LRU) cache.
 
 Usage
